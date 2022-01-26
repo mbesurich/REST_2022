@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
