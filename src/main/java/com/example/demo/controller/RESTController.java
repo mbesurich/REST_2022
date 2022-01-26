@@ -3,8 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,9 +40,13 @@ public class RESTController {
         return user;
     }
 
-    @RequestMapping
-    public String deleteUser(@RequestParam("id") long id) {
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        User tempUser = userService.getUserById(id);
+        if (tempUser == null) {
+            return "there is no user with id: " + id;
+        }
         userService.deleteUserById(id);
-        return "redirect:/admin";
+        return "Deleted user with id: " + id;
     }
 }

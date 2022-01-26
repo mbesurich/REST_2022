@@ -12,9 +12,11 @@ public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @JsonIgnore
     private Long id;
 
     @Column(name = "name")
+//    @JsonIgnore
     private String name;
 
     @ManyToMany(mappedBy = "roleSet")
@@ -85,7 +87,7 @@ public class Role implements GrantedAuthority {
     }
 
     @Override
-//    @JsonIgnore
+    @JsonIgnore
     public String getAuthority() {
         return name;
     }
