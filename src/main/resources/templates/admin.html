@@ -63,8 +63,8 @@
                                     All Users
                                 </h4>
                             </li>
-                            <li class="list-group-item">
-                                <div class="table" id="table">
+                            <li class="list-group-item" id="table">
+                                <div class="table" >
                                     <div class="mx-2 my-2">
                                         <div id="listOfUsers">
 
@@ -95,7 +95,7 @@
                                                                 th:attr="data-target='#editModal'+ ${user.id}">
                                                             Edit
                                                         </button>
-                                                        <div class="modal fade" th:attr="id='editModal'+ ${user.id}"
+                                                        <div class="modal fade" id="editForm" th:attr="id='editModal'+ ${user.id}"
                                                              tabindex="-1"
                                                              role="dialog"
                                                              aria-labelledby="editModalLabel"
@@ -118,6 +118,7 @@
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <input type="hidden"
+                                                                                   id="idEdit"
                                                                                    th:value="*{id}"
                                                                                    th:name="id">
                                                                             <div class="form-group text-center">
@@ -125,6 +126,7 @@
                                                                                     <span class="font-weight-bold">First Name</span>
                                                                                 </label>
                                                                                 <input type="text"
+                                                                                       id="firstNameEdit"
                                                                                        class="form-control collection-ville text-center"
                                                                                        th:value="*{name}"
                                                                                        th:name="name"/>
@@ -134,6 +136,7 @@
                                                                                     <span class="font-weight-bold">Last Name</span>
                                                                                 </label>
                                                                                 <input type="text"
+                                                                                       id="lastNameEdit"
                                                                                        class="form-control collection-ville text-center"
                                                                                        th:value="*{surName}"
                                                                                        th:name="surName"/>
@@ -143,6 +146,7 @@
                                                                                     <span class="font-weight-bold">Age</span>
                                                                                 </label>
                                                                                 <input type="text"
+                                                                                       id="AgeEdit"
                                                                                        class="form-control collection-ville text-center"
                                                                                        th:value="*{age}"
                                                                                        th:name="age"/>
@@ -152,6 +156,7 @@
                                                                                     <span class="font-weight-bold">Email</span>
                                                                                 </label>
                                                                                 <input type="email"
+                                                                                       id="emailEdit"
                                                                                        class="form-control collection-ville text-center"
                                                                                        th:value="*{email}"
                                                                                        th:name="email"/>
@@ -161,6 +166,7 @@
                                                                                     <span class="font-weight-bold">Password</span>
                                                                                 </label>
                                                                                 <input type="password"
+                                                                                       id="passwordEdit"
                                                                                        class="form-control collection-ville text-center"
                                                                                        th:value="*{password}"
                                                                                        th:name="password"/>
@@ -170,6 +176,7 @@
                                                                                     <span class="font-weight-bold">Role</span>
                                                                                 </label>
                                                                                 <select class="form-control"
+                                                                                        id="EditCheckRoles"
                                                                                         size="2"
                                                                                         multiple="multiple"
                                                                                         th:name="checkRoles">
@@ -356,7 +363,7 @@
                                                             <span class="font-weight-bold">Role</span>
                                                         </label>
                                                         <select class="form-control"
-                                                                id="newRoles"
+                                                                id="checkRoles"
                                                                 size="2"
                                                                 multiple="multiple"
                                                                 name="checkRoles">

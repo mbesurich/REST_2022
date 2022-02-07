@@ -1,8 +1,7 @@
 let allUsersForm = document.getElementById('listOfUsers');
 let createNewUserForm = document.getElementById('createNewUserFormId');
 const url = 'http://localhost:8080/api/users';
-let newRoles = [];
-let outputForAllUsers = '<table class="table table-striped bg-white text-dark">' +
+let outputForAllUsers = '<table  class="table table-striped bg-white text-dark">' +
     '<tr class="bg-white text-dark">' +
     '<th>ID</th>' +
     '<th>First Name</th>' +
@@ -13,8 +12,7 @@ let outputForAllUsers = '<table class="table table-striped bg-white text-dark">'
     '<th>Edit</th>' +
     '<th>Delete</th>' +
     '</tr>' +
-    '<tbody>';
-let outputForCreateNewUserForm = '';
+    '<tbody id="usersTable">';
 
 
 const renderAllUsers = (data) => {
@@ -33,12 +31,12 @@ const renderAllUsers = (data) => {
                 <td> ${element.email} </td>
                 <td> ${elementRoles} </td>
                 <td>
-                    <button type="button" class="btn btn-info" data-toggle="modal" attr="data-target='#editModal'+ onclick="editUser(this)">
+                    <button type="button" class="btn btn-info" data-toggle="modal" attr="data-target='#editModal' onclick="editUser(this)">
                         Edit
                     </button>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" attr="data-target='#deleteModal'+${element.id}">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" attr="data-target='#deleteModal' onclick="deleteRow(this)"">
                         Delete
                     </button>
                 </td>
@@ -49,26 +47,32 @@ const renderAllUsers = (data) => {
     allUsersForm.innerHTML = outputForAllUsers;
 };
 
-fetch(url)
-    .then(res => res.json())
-    .then(data => renderAllUsers(data));
+function printUsers() {
+    fetch(url)
+        .then(res => res.json())
+        .then(data => renderAllUsers(data));
+}
 
 createNewUserForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log(newRoles)
-    document.getElementById(newRoles).forEach(role => {
-        newRoles.push(role);
-    })
-    newRoles.push()
+    let newRoles2 = '?checkRoles=';
+    let optionList = document.getElementById('checkRoles').options;
+    [].forEach.call(optionList, function (el) {
+        newRoles2 += el.outerText + ',';
+    });
+    let roles1 = newRoles2.substr(0, newRoles2.length - 1);
+
+    console.log(roles1)
+
     bodyJson = JSON.stringify({
-        name: document.getElementById(newName).value,
-        surName: document.getElementById(newSurName).value,
-        age: document.getElementById(newAge).value,
-        email: document.getElementById(newEmail).value,
-        password: document.getElementById(newPassword).value,
-        roleSet: newRoles})
+        name: document.getElementById('newName').value,
+        surName: document.getElementById('newSurName').value,
+        age: document.getElementById('newAge').value,
+        email: document.getElementById('newEmail').value,
+        password: document.getElementById('newPassword').value
+    })
     console.log(bodyJson)
-    fetch(url, {
+    fetch(url + roles1, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -76,18 +80,53 @@ createNewUserForm.addEventListener('submit', (e) => {
         body: bodyJson
     })
 
-        // .then(res => res.json())
-        // .then(data => {
-        //     const dataArray = [];
-        //     dataArray.push(data);
-        //     createNewUser(dataArray);
-        // });
-    alert("New User added");
-    document.getElementById('addForm').reset();
-    document.getElementById('table').click();
-    $("#usersTable > tbody").empty();
-    renderAllUsers();
-})
+        .then(res => res.json())
+        .then(data => {
+            // console.log(data)
+            const dataArray = [];
+            dataArray.push(data);
+
+            // alert("New User added");
+            document.getElementById('addForm').reset();
+            // document.getElementById('usersTable').reset();
+            document.getElementById('home-tab').click();
+            $("#usersTable > tbody").empty();
+            printUsers();
+            // renderAllUsers(dataArray);
+        });
+});
+
+function editUser(o) {
+    document.getElementById('editForm').reset();
+    let id = $(o).closest('tr').find('td').eq(0).text();
+    fetch(url + id)
+        .then((response) => {
+            response.json().then((data) => {
+                $('#idEdit').val(data.id);
+                $('#firstNameEdit').val(data.name);
+                $('#lastNameEdit').val(data.surName);
+                $('#AgeEdit').val(data.age);
+                $('#emailEdit').val(data.email);
+                $('#passwordEdit').val(data.password);
+
+                var roles = data.roles;
+                var newRoles = [];
+                $('#EditCheckRoles option').each(function () {
+                    newRoles[$(this).val()] = $(this).val();
+                });
+                roles.forEach(function (item) {
+                    if (newRoles.includes(String(item.id))) {
+                        $('#editRoles option[id=' + item.id + ']').prop('selected', true);
+                    }
+                })
+            });
+        });
+};
+
+
+
+
+
 
 
 

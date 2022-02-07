@@ -36,6 +36,7 @@ public class RESTController {
 
     @PostMapping("/users")
     public User saveUser(@RequestBody User user, @RequestParam(value = "checkRoles") String[] checkRoles) {
+//    public User saveUser(@RequestBody User user) {
         user.setRoleSet(userService.getRolesByNames(checkRoles));
         userService.addUser(user);
         return user;
