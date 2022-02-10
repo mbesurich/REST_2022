@@ -4,6 +4,7 @@ import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,8 +43,22 @@ public class RESTController {
         return user;
     }
 
-    @PutMapping("/users")
-    public User updateUser(@RequestBody User user) {
+//    @PutMapping("/users")
+//    public User updateUser(@RequestBody User user) {
+//        userService.update(user);
+//        return user;
+//    }
+
+//    @PutMapping(value = "/users")
+//    public ResponseEntity<User> edit(@RequestBody User user, @RequestParam("checkRoles") String[] checkRoles) {
+//        user.setRoleSet(userService.getRolesByNames(checkRoles));
+//        userService.update(user);
+//        return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
+//    }
+
+    @PutMapping(value = "/users")
+    public User edit(@RequestBody User user, @RequestParam("checkRoles") String[] checkRoles) {
+        user.setRoleSet(userService.getRolesByNames(checkRoles));
         userService.update(user);
         return user;
     }
