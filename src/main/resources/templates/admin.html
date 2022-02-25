@@ -67,14 +67,26 @@
                             <li class="list-group-item" id="table">
                                 <div class="table">
                                     <div class="mx-2 my-2">
-                                        <div id="listOfUsers">document
-                                        </div>
+                                            <table class="table table-striped bg-white text-dark">
+                                                <tr class="bg-white text-dark">
+                                                    <th>ID</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Age</th>
+                                                    <th>Email</th>
+                                                    <th>Role</th>
+                                                    <th>Edit</th>
+                                                    <th>Delete</th>
+                                                </tr>
+                                                <tbody id="usersTable">
+
+                                                </tbody>
+                                            </table>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
-
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <ul class="list-group my-0">
                             <li class="list-group-item bg-light text-dark">
@@ -82,75 +94,72 @@
                             </li>
                             <li class="list-group-item">
                                 <div id="createNewUserFormId">
-
-                                                                    <div class="row justify-content-center align-items-center">
-                                                                        <div class="col-md-5">
-                                                                            <div class="container text-center">
-                                                                                <form th:action="@{/admin/add}"
-                                                                                      th:object="${newUser}"
-                                                                                      method="post" align="center" id="addForm">
-                                                                                    <div class="form-group">
-                                                                                        <label class=" font-weight-bold">First Name</label>
-                                                                                        <input type="text" style="background-color: #ffeb99"
-                                                                                               id="newName"
-                                                                                               th:field="*{name}"
-                                                                                               class="form-control text-dark"
-                                                                                               placeholder="Enter your name">
-                                                                                    </div>
-                                                                                    <div class="form-group">
-                                                                                        <label class=" font-weight-bold">Last Name</label>
-                                                                                        <input type="text" style="background-color: #ffeb99"
-                                                                                               id="newSurName"
-                                                                                               th:field="*{surName}"
-                                                                                               class="form-control text-dark"
-                                                                                               placeholder="Enter your last name">
-                                                                                    </div>
-                                                                                    <div class="form-group">
-                                                                                        <label class=" font-weight-bold">Age</label>
-                                                                                        <input type="number"
-                                                                                               id="newAge"
-                                                                                               th:field="*{age}"
-                                                                                               class="form-control"
-                                                                                               placeholder="Enter your Age">
-                                                                                    </div>
-                                                                                    <div class="form-group">
-                                                                                        <label class=" font-weight-bold">Email</label>
-                                                                                        <input type="email" style="background-color: #ffeb99"
-                                                                                               id="newEmail"
-                                                                                               th:field="*{email}"
-                                                                                               class="form-control text-dark"
-                                                                                               placeholder="Enter your Email">
-                                                                                    </div>
-                                                                                    <div class="form-group">
-                                                                                        <label class=" font-weight-bold">Password</label>
-                                                                                        <input type="password"
-                                                                                               id="newPassword"
-                                                                                               th:field="*{password}"
-                                                                                               class="form-control"
-                                                                                               placeholder="Enter your Password">
-                                                                                    </div>
-                                                                                    <div class="form-group">
-                                                                                        <label class="center-block">
-                                                                                            <span class="font-weight-bold">Role</span>
-                                                                                        </label>
-                                                                                        <select class="form-control"
-                                                                                                id="checkRoles"
-                                                                                                size="2"
-                                                                                                multiple="multiple"
-                                                                                                name="checkRoles">
-                                                                                            <option th:each="role : ${allRoles}"
-                                                                                                    th:value="${role}"
-                                                                                                    th:text="${role}">
-                                                                                            </option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                    <button type="submit" class="btn btn-success">Add new user</button>
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-
+                                    <div class="row justify-content-center align-items-center">
+                                        <div class="col-md-5">
+                                            <div class="container text-center">
+                                                <form th:action="@{/admin/add}"
+                                                      th:object="${newUser}"
+                                                      method="post" align="center" id="addForm">
+                                                    <div class="form-group">
+                                                        <label class=" font-weight-bold">First Name</label>
+                                                        <input type="text" style="background-color: #ffeb99"
+                                                               id="newName"
+                                                               th:field="*{name}"
+                                                               class="form-control text-dark"
+                                                               placeholder="Enter your name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class=" font-weight-bold">Last Name</label>
+                                                        <input type="text" style="background-color: #ffeb99"
+                                                               id="newSurName"
+                                                               th:field="*{surName}"
+                                                               class="form-control text-dark"
+                                                               placeholder="Enter your last name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class=" font-weight-bold">Age</label>
+                                                        <input type="number"
+                                                               id="newAge"
+                                                               th:field="*{age}"
+                                                               class="form-control"
+                                                               placeholder="Enter your Age">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class=" font-weight-bold">Email</label>
+                                                        <input type="email" style="background-color: #ffeb99"
+                                                               id="newEmail"
+                                                               th:field="*{email}"
+                                                               class="form-control text-dark"
+                                                               placeholder="Enter your Email">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class=" font-weight-bold">Password</label>
+                                                        <input type="password"
+                                                               id="newPassword"
+                                                               th:field="*{password}"
+                                                               class="form-control"
+                                                               placeholder="Enter your Password">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="center-block">
+                                                            <span class="font-weight-bold">Role</span>
+                                                        </label>
+                                                        <select class="form-control"
+                                                                id="checkRoles"
+                                                                size="2"
+                                                                multiple="multiple"
+                                                                name="checkRoles">
+                                                            <option th:each="role : ${allRoles}"
+                                                                    th:value="${role}"
+                                                                    th:text="${role}">
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-success">Add new user</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -254,7 +263,8 @@
                         <label for="firstNameDelete" class="label-add">
                             <span class="font-weight-bold">First Name</span>
                         </label>
-                        <input type="text" class="form-control collection-ville text-left" id="firstNameDelete" readonly>
+                        <input type="text" class="form-control collection-ville text-left" id="firstNameDelete"
+                               readonly>
                     </div>
                     <div class="form-group text-center">
                         <label for="lastNameDelete" class="center-block">
@@ -279,7 +289,8 @@
                             <span class="font-weight-bold">Role</span>
                         </label>
 
-                        <select id="deleteRoles" class="form-control custom-select" size="2" multiple="multiple" readonly>
+                        <select id="deleteRoles" class="form-control custom-select" size="2" multiple="multiple"
+                                readonly>
                             <option th:each="role : ${allRoles}"
                                     th:value="${role}"
                                     th:text="${role}">
@@ -288,7 +299,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btnDelete btn btn-danger" data-dismiss="modal" onclick="deleteUser(this)">Delete</button>
+                        <button type="button" class="btnDelete btn btn-danger" data-dismiss="modal"
+                                onclick="deleteUser(this)">Delete
+                        </button>
                     </div>
                 </form>
             </div>
