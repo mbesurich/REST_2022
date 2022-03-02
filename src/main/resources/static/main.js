@@ -59,21 +59,36 @@ createNewUserForm.addEventListener('submit', (e) => {
         password: document.getElementById('newPassword').value,
         roleSet: roles
     })
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: bodyJson,
-    })
-        .then(res => res.json())
-        .then(data => {
-            const dataArray = [];
-            dataArray.push(data);
-            document.getElementById('addForm').reset();
-            document.getElementById('home-tab').click();
-            printUsers();
+    try{
+        const creatUserWithCatch = fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: bodyJson,
         });
+        if (creatUserWithCatch.badRequest) {
+            creatUserWithCatch.then(res => console.log(res.status))
+            console.log("throw new Error(\"User was not created, email should be unique\")")
+            throw new Error("User was not created, email should be unique")
+        } else {
+            creatUserWithCatch
+                .then(res => {
+                    console.log(res.status)
+                    res.json()
+                })
+                .then(data => {
+                    const dataArray = [];
+                    dataArray.push(data);
+                    document.getElementById('addForm').reset();
+                    document.getElementById('home-tab').click();
+                    printUsers();
+                });
+        }
+    } catch (e) {
+        alert("User was not created, email should be unique ")
+    }
+
 })
 
 function editUser(o) {

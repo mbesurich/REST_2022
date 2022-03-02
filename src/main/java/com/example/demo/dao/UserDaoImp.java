@@ -5,6 +5,7 @@ import com.example.demo.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -40,7 +41,7 @@ public class UserDaoImp implements UserDao{
 
     @Override
     public User getUserByEmail(String email) {
-        return (User) em
+        return em
                 .createQuery("SELECT u FROM User u WHERE u.email LIKE :email", User.class)
                 .setParameter("email", email)
                 .getSingleResult();
