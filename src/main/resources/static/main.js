@@ -93,23 +93,25 @@ function editUser(o) {
 }
 
 async function updateUser() {
-    let newRoles2 = '?checkRoles=';
-    let optionList = $('#EditCheckRoles').val();
-    optionList.forEach(function (item) {
-        newRoles2 += item + ',';
-    })
-    let roles1 = newRoles2.substr(0, newRoles2.length - 1);
-    let jsonVar = {
+    let roles = [];
+    if ($('#EditCheckRoles').val().includes("ROLE_USER")) {
+        roles.push({"id":1,"name":"ROLE_USER"})
+    }
+    if ($('#EditCheckRoles').val().includes("ROLE_ADMIN")) {
+        roles.push({"id":2,"name":"ROLE_ADMIN"})
+    }
+    let jsonVar = JSON.stringify({
         id: document.getElementById("idEdit").value,
         name: document.getElementById("firstNameEdit").value,
         surName: document.getElementById("lastNameEdit").value,
         age: document.getElementById("ageEdit").value,
         email: document.getElementById("emailEdit").value,
-        password: document.getElementById("passwordEdit").value
-    };
-    await fetch(url + roles1, {
+        password: document.getElementById("passwordEdit").value,
+        roleSet: roles
+    })
+    await fetch(url, {
         method: 'PUT',
-        body: JSON.stringify(jsonVar),
+        body: jsonVar,
         headers: {
             'Content-Type': 'application/json'
         }

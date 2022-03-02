@@ -57,12 +57,21 @@ public class RESTController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping(value = "/users")
+    public ResponseEntity<User> edit(@RequestBody User user) {
+        HttpHeaders headers = new HttpHeaders();
+//        user.setRoleSet(userService.getRolesByNames(checkRoles));
+        userService.update(user);
+        return ResponseEntity.ok().headers(headers).body(user);
+    }
+
+/*    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PutMapping(value = "/users")
     public ResponseEntity<User> edit(@RequestBody User user, @RequestParam("checkRoles") String[] checkRoles) {
         HttpHeaders headers = new HttpHeaders();
         user.setRoleSet(userService.getRolesByNames(checkRoles));
         userService.update(user);
         return ResponseEntity.ok().headers(headers).body(user);
-    }
+    }*/
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/users/{id}")
