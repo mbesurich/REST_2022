@@ -12,8 +12,8 @@ async function printUsers() {
         data.forEach(element => {
             let elementRoles = '';
             element.roleSet.forEach(role => {
-                    elementRoles += role.name + ' ';
-                });
+                elementRoles += role.name + ' ';
+            });
             outputForAllUsers += `
             <tr id=${element.id}>
                 <td> ${element.id} </td>
@@ -44,25 +44,27 @@ async function printUsers() {
 
 createNewUserForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    let newRoles2 = '?checkRoles=';
-    let optionList = $('#checkRoles').val();
-    optionList.forEach(function (item) {
-        newRoles2 += item + ',';
-    })
-    let roles1 = newRoles2.substr(0, newRoles2.length - 1);
+    let roles = [];
+    if ($('#checkRoles').val().includes("ROLE_USER")) {
+            roles.push({"id":1,"name":"ROLE_USER"})
+    }
+    if ($('#checkRoles').val().includes("ROLE_ADMIN")) {
+        roles.push({"id":2,"name":"ROLE_ADMIN"})
+    }
     bodyJson = JSON.stringify({
         name: document.getElementById('newName').value,
         surName: document.getElementById('newSurName').value,
         age: document.getElementById('newAge').value,
         email: document.getElementById('newEmail').value,
-        password: document.getElementById('newPassword').value
+        password: document.getElementById('newPassword').value,
+        roleSet: roles
     })
-    fetch(url + roles1, {
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: bodyJson
+        body: bodyJson,
     })
         .then(res => res.json())
         .then(data => {
@@ -70,12 +72,9 @@ createNewUserForm.addEventListener('submit', (e) => {
             dataArray.push(data);
             document.getElementById('addForm').reset();
             document.getElementById('home-tab').click();
-            //----------------------------------------------------------
-            // $("#usersTable > tbody").empty();
-            //----------------------------------------------------------
             printUsers();
         });
-});
+})
 
 function editUser(o) {
     document.getElementById('editForm').reset();

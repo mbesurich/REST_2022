@@ -1,13 +1,16 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -28,31 +31,54 @@ public class RESTController {
     }
 
     @GetMapping("/users/{id}")
-    public User getUser(@PathVariable long id) {
-        return userService.getUserById(id);
-    }
-
-    @PostMapping("/users")
-    public User saveUser(@RequestBody User user, @RequestParam(value = "checkRoles") String[] checkRoles) {
-        user.setRoleSet(userService.getRolesByNames(checkRoles));
-        userService.addUser(user);
-        return user;
-    }
-
-    @PutMapping(value = "/users")
-    public User edit(@RequestBody User user, @RequestParam("checkRoles") String[] checkRoles) {
-        user.setRoleSet(userService.getRolesByNames(checkRoles));
-        userService.update(user);
-        return user;
-    }
-
-    @DeleteMapping("/users/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    public ResponseEntity<User> getUser(@PathVariable long id) {
+        HttpHeaders headers = new HttpHeaders();
         User tempUser = userService.getUserById(id);
         if (tempUser == null) {
-            return "there is no user with id: " + id;
+            return ResponseEntity.badRequest().headers(headers).body(tempUser);
+        }
+        return ResponseEntity.ok().headers(headers).body(tempUser);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/users")
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        HttpHeaders headers = new HttpHeaders();
+//        user.setRoleSet(userService.getRolesByNames(checkRoles));
+        userService.addUser(user);
+        return ResponseEntity.ok().headers(headers).body(user);
+    }
+//    public ResponseEntity<User> saveUser(@RequestBody User user, @RequestParam(value = "checkRoles") String[] checkRoles) {
+//        HttpHeaders headers = new HttpHeaders();
+//        user.setRoleSet(userService.getRolesByNames(checkRoles));
+//        userService.addUser(user);
+//        return ResponseEntity.ok().headers(headers).body(user);
+//    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PutMapping(value = "/users")
+    public ResponseEntity<User> edit(@RequestBody User user, @RequestParam("checkRoles") String[] checkRoles) {
+        HttpHeaders headers = new HttpHeaders();
+        user.setRoleSet(userService.getRolesByNames(checkRoles));
+        userService.update(user);
+        return ResponseEntity.ok().headers(headers).body(user);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        HttpHeaders headers = new HttpHeaders();
+        User tempUser = userService.getUserById(id);
+        if (tempUser == null) {
+            return ResponseEntity.badRequest().headers(headers).body("there is no user with id: " + id);
         }
         userService.deleteUserById(id);
-        return "Deleted user with id: " + id;
+        return ResponseEntity.ok().headers(headers).body("Deleted user with id: " + id);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PutMapping("/roles")
+    public Set<Role> getAllUsers(@RequestBody String[] roles) {
+        return userService.getRolesByNames(roles);
     }
 }
