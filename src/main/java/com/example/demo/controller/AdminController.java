@@ -19,14 +19,6 @@ public class AdminController {
         this.userService = userService;
     }
 
-/*    @ModelAttribute
-    public void addAttributes(Model model) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("currentUser", user);
-        model.addAttribute("allRoles", userService.getAllRoles());
-        model.addAttribute("newUser", new User());
-    }*/
-
     @GetMapping
     public String showAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());

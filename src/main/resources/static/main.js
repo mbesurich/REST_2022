@@ -46,10 +46,10 @@ createNewUserForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let roles = [];
     if ($('#checkRoles').val().includes("ROLE_USER")) {
-            roles.push({"id":1,"name":"ROLE_USER"})
+        roles.push({"id": 1, "name": "ROLE_USER"})
     }
     if ($('#checkRoles').val().includes("ROLE_ADMIN")) {
-        roles.push({"id":2,"name":"ROLE_ADMIN"})
+        roles.push({"id": 2, "name": "ROLE_ADMIN"})
     }
     if ($('#checkRoles').val().length == 0) {
         alert("You should choose the role");
@@ -63,34 +63,24 @@ createNewUserForm.addEventListener('submit', (e) => {
         password: document.getElementById('newPassword').value,
         roleSet: roles
     })
-    // try{
-        const creatUserWithCatch = fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: bodyJson,
+    const creatUserWithCatch = fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: bodyJson,
+    });
+    creatUserWithCatch
+        .then(res => {
+            res.json()
+        })
+        .then(data => {
+            const dataArray = [];
+            dataArray.push(data);
+            document.getElementById('addForm').reset();
+            document.getElementById('home-tab').click();
+            printUsers();
         });
-        creatUserWithCatch
-            .then(res => {
-                console.log(res.status)
-                if (res.status == 400) {
-                    alert("User was not created, email should be unique");
-                    return;
-                }
-                res.json()
-            })
-            .then(data => {
-                const dataArray = [];
-                dataArray.push(data);
-                document.getElementById('addForm').reset();
-                document.getElementById('home-tab').click();
-                printUsers();
-            });
-    /*} catch (e) {
-        alert("User was not created, email should be unique ")
-    }*/
-
 })
 
 function editUser(o) {
@@ -112,10 +102,10 @@ function editUser(o) {
 async function updateUser() {
     let roles = [];
     if ($('#EditCheckRoles').val().includes("ROLE_USER")) {
-        roles.push({"id":1,"name":"ROLE_USER"})
+        roles.push({"id": 1, "name": "ROLE_USER"})
     }
     if ($('#EditCheckRoles').val().includes("ROLE_ADMIN")) {
-        roles.push({"id":2,"name":"ROLE_ADMIN"})
+        roles.push({"id": 2, "name": "ROLE_ADMIN"})
     }
     if ($('#EditCheckRoles').val().length == 0) {
         alert("You should choose the role");
@@ -136,14 +126,7 @@ async function updateUser() {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(res => {
-        console.log(res.status)
-        if (res.status == 400) {
-            alert("User was not saved, email should be unique");
-            return;
-        }
-        res.json()
-    });
+    })
     printUsers();
 }
 

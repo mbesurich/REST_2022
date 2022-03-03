@@ -30,19 +30,7 @@ public class RoleDaoImp implements RoleDao{
 
     @Override
     public Set<Role> getRolesByNames(String[] names) {
-        StringBuilder sb = new StringBuilder();
-//        String[] roles = new String[names.length];
-        sb.append("SELECT r FROM Role r WHERE ");
-        for (int i = 0; i < names.length; i++) {
-            sb.append("r.name LIKE :role").append(i);
-            if (i != names.length - 1) {
-                sb.append(" OR ");
-            }
-        }
-        TypedQuery<Role> query = em.createQuery(sb.toString(), Role.class);
-        for (int i = 0; i < names.length; i++) {
-            query.setParameter("role" + i, names[i]);
-        }
+        TypedQuery<Role> query = em.createQuery("SELECT r FROM Role r WHERE r.name in :names", Role.class);
         return new HashSet<>(query.getResultList());
     }
 
