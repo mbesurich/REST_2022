@@ -45,10 +45,10 @@ public class RESTController {
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         HttpHeaders headers = new HttpHeaders();
 //        user.setRoleSet(userService.getRolesByNames(checkRoles));
-        if (userService.getUserByEmail(user.getEmail()) != null) {
+       /* if (userService.getUserByEmail(user.getEmail()) != null) {
             System.out.println("userService.getUserByEmail(user.getEmail()) != null");
             return ResponseEntity.badRequest().headers(headers).body(user);
-        }
+        }*/
         userService.addUser(user);
         return ResponseEntity.ok().headers(headers).body(user);
     }

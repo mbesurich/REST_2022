@@ -51,6 +51,10 @@ createNewUserForm.addEventListener('submit', (e) => {
     if ($('#checkRoles').val().includes("ROLE_ADMIN")) {
         roles.push({"id":2,"name":"ROLE_ADMIN"})
     }
+    if ($('#checkRoles').val().length == 0) {
+        alert("You should choose the role");
+        return;
+    }
     bodyJson = JSON.stringify({
         name: document.getElementById('newName').value,
         surName: document.getElementById('newSurName').value,
@@ -114,6 +118,10 @@ async function updateUser() {
     }
     if ($('#EditCheckRoles').val().includes("ROLE_ADMIN")) {
         roles.push({"id":2,"name":"ROLE_ADMIN"})
+    }
+    if ($('#checkRoles').val().length == 0) {
+        alert("You should choose the role");
+        return;
     }
     let jsonVar = JSON.stringify({
         id: document.getElementById("idEdit").value,
