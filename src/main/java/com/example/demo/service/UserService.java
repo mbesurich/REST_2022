@@ -16,4 +16,5 @@ public interface UserService {
     Role getRoleByName(String name);
     Set<Role> getRolesByNames(String[] names);
     User getUserByEmail(String email);
+    List<String> getAllEmails();
 }

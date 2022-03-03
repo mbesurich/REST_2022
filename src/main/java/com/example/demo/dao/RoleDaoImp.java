@@ -17,7 +17,7 @@ public class RoleDaoImp implements RoleDao{
 
     @Override
     public Role getRoleByName(String name) {
-        return (Role) em
+        return em
                 .createQuery("SELECT r FROM Role r WHERE r.name LIKE :role", Role.class)
                 .setParameter("role", name)
                 .getSingleResult();
@@ -25,13 +25,13 @@ public class RoleDaoImp implements RoleDao{
 
     @Override
     public Set<Role> getAllRoles() {
-        return new HashSet<Role>(em.createQuery("SELECT r FROM Role r", Role.class).getResultList());
+        return new HashSet<>(em.createQuery("SELECT r FROM Role r", Role.class).getResultList());
     }
 
     @Override
     public Set<Role> getRolesByNames(String[] names) {
         StringBuilder sb = new StringBuilder();
-        String[] roles = new String[names.length];
+//        String[] roles = new String[names.length];
         sb.append("SELECT r FROM Role r WHERE ");
         for (int i = 0; i < names.length; i++) {
             sb.append("r.name LIKE :role").append(i);

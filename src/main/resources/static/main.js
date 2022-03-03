@@ -63,7 +63,7 @@ createNewUserForm.addEventListener('submit', (e) => {
         password: document.getElementById('newPassword').value,
         roleSet: roles
     })
-    try{
+    // try{
         const creatUserWithCatch = fetch(url, {
             method: 'POST',
             headers: {
@@ -71,27 +71,25 @@ createNewUserForm.addEventListener('submit', (e) => {
             },
             body: bodyJson,
         });
-        if (creatUserWithCatch.badRequest) {
-            creatUserWithCatch.then(res => console.log(res.status))
-            console.log("throw new Error(\"User was not created, email should be unique\")")
-            throw new Error("User was not created, email should be unique")
-        } else {
-            creatUserWithCatch
-                .then(res => {
-                    console.log(res.status)
-                    res.json()
-                })
-                .then(data => {
-                    const dataArray = [];
-                    dataArray.push(data);
-                    document.getElementById('addForm').reset();
-                    document.getElementById('home-tab').click();
-                    printUsers();
-                });
-        }
-    } catch (e) {
+        creatUserWithCatch
+            .then(res => {
+                console.log(res.status)
+                if (res.status == 400) {
+                    alert("User was not created, email should be unique");
+                    return;
+                }
+                res.json()
+            })
+            .then(data => {
+                const dataArray = [];
+                dataArray.push(data);
+                document.getElementById('addForm').reset();
+                document.getElementById('home-tab').click();
+                printUsers();
+            });
+    /*} catch (e) {
         alert("User was not created, email should be unique ")
-    }
+    }*/
 
 })
 
@@ -119,7 +117,7 @@ async function updateUser() {
     if ($('#EditCheckRoles').val().includes("ROLE_ADMIN")) {
         roles.push({"id":2,"name":"ROLE_ADMIN"})
     }
-    if ($('#checkRoles').val().length == 0) {
+    if ($('#EditCheckRoles').val().length == 0) {
         alert("You should choose the role");
         return;
     }
@@ -138,6 +136,13 @@ async function updateUser() {
         headers: {
             'Content-Type': 'application/json'
         }
+    }).then(res => {
+        console.log(res.status)
+        if (res.status == 400) {
+            alert("User was not saved, email should be unique");
+            return;
+        }
+        res.json()
     });
     printUsers();
 }

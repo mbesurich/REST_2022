@@ -49,6 +49,10 @@ public class RESTController {
             System.out.println("userService.getUserByEmail(user.getEmail()) != null");
             return ResponseEntity.badRequest().headers(headers).body(user);
         }*/
+        if (userService.getAllEmails().contains(user.getEmail())) {
+            System.out.println("----------------Email is not unique -------------------------");
+            return ResponseEntity.badRequest().headers(headers).body(user);
+        }
         userService.addUser(user);
         return ResponseEntity.ok().headers(headers).body(user);
     }
@@ -64,6 +68,12 @@ public class RESTController {
     public ResponseEntity<User> edit(@RequestBody User user) {
         HttpHeaders headers = new HttpHeaders();
 //        user.setRoleSet(userService.getRolesByNames(checkRoles));
+
+        if (userService.getAllEmails().contains(user.getEmail())) {
+            System.out.println("----------------Email is not unique -------------------------");
+            return ResponseEntity.badRequest().headers(headers).body(user);
+        }
+
         userService.update(user);
         return ResponseEntity.ok().headers(headers).body(user);
     }

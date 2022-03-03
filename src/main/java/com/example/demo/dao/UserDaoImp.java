@@ -46,4 +46,10 @@ public class UserDaoImp implements UserDao{
                 .setParameter("email", email)
                 .getSingleResult();
     }
+
+    @Override
+    public List<String> getAllEmails() {
+        return em.createQuery("SELECT email FROM User", String.class).getResultList();
+    }
+
 }

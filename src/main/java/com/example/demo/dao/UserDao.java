@@ -11,4 +11,5 @@ public interface UserDao {
     User getUserById(Long id);
     void deleteUserById(Long id);
     User getUserByEmail(String email);
+    List<String> getAllEmails();
 }
