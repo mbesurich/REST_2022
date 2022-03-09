@@ -28,6 +28,7 @@ public class RESTController {
         return ResponseEntity.ok().headers(headers).body(userService.getAllUsers());
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUser(@PathVariable long id) {
         HttpHeaders headers = new HttpHeaders();
